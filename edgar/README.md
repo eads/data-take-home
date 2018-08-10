@@ -1,15 +1,13 @@
 # EDGAR
 
-This is a python **2** [flask application](http://localhost:5000). We strongly recommend creating a virtual env before performing the steps below.
+This is a **Python 2** [Flask](http://flask.pocoo.org/) application. We strongly recommend creating a virtual env before performing the steps below.
 
-## Running Edgar
+## Install requirements
 
 `pip install -r requirements.txt`
 
-### Development Server
+## Run the local server
 
-`GRID=dev python server.py`
+`python server.py`
 
-### Production Server
-
-`GRID=prod python server.py 2>&1 | tee edgar-requests.log`
+You can now access the site at [http://127.0.0.1:5000](http://127.0.0.1:5000).
