@@ -1,6 +1,6 @@
 # EDGAR
 
-This is a **Python 2** [Flask](http://flask.pocoo.org/) application. We strongly recommend creating a virtual env before performing the steps below.
+This is a **Python 2** [Flask](http://flask.pocoo.org/) application. We strongly recommend creating a virtualenv before performing the steps below.
 
 ## Install requirements
 
