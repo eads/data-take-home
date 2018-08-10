@@ -24,7 +24,7 @@ _Please commit an `edgar.json` file of the parsed company listings data along wi
 #### Recommended libraries: 
 
 * [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/) contains a robust HTML parser.
-* Python's standard [json](https://docs.python.org/2/library/json.html) module is convenient for working with the [JSON](http://json.org) format. 
+* Python's standard [`json`](https://docs.python.org/2/library/json.html) module is convenient for working with the [JSON](http://json.org) format. 
 
 ### Normalize the data
 
@@ -38,13 +38,13 @@ You will find a CSV file in the `files` folder named [`data.csv`](files/data.csv
 
 **Date offset** (_Optional_) - The `start_date` field contains data in a variety of formats. These may include e.g., `June 23, 1912` or `5/11/1930` (month, day, year). But not all values are valid dates. Invalid dates may include e.g., `June 2018`, `3/06` (incomplete dates), or even arbitrary natural language. Add a `start_date_description` field adjacent to the `start_date` column to filter invalid date values into. Normalize all valid date values in `start_date` to ISO 8601 (i.e., `YYYY-MM-DD`).
 
-Your script should take [data.csv](files/data.csv) as input and produce a cleaned `enriched.csv` file according to the step requirements above. 
+Your script should take [`data.csv`](files/data.csv) as input and produce a cleaned `enriched.csv` file according to the step requirements above. 
 
 _Please commit an `enriched.csv` file along with your solution code in the `solution/csv` folder._
 
 #### Recommended libraries:
 
-* Python's standard [csv](https://docs.python.org/2/library/csv.html) module is standard for dealing with CSV data.
+* Python's standard [`csv`](https://docs.python.org/2/library/csv.html) module is standard for dealing with CSV data.
 
 ## Submission Guidelines
 
