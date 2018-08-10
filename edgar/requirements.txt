@@ -1,0 +1,5 @@
+fake-factory==0.5.0
+Flask==0.10.1
+Flask-Script==2.0.5
+flask-paginate==0.3.0
+waitress==0.8.9
