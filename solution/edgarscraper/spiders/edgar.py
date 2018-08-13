@@ -25,4 +25,21 @@ class EdgarSpider(scrapy.Spider):
             yield response.follow(next_page, callback=self.parse)
 
     def parse_company(self, response):
-        yield {}
+
+        def extract(query):
+            """
+            Pull text from links in table.
+            """
+            return response.css('%s::text' % query).extract_first().strip()
+
+        yield {
+            'name': extract('#name'),
+            'street_address': extract('#street_address'),
+            'street_address_2': extract('#street_address_2'),
+            'city': extract('#city'),
+            'state': extract('#state'),
+            'zipcode': extract('#zipcode'),
+            'phone_number': extract('#phone_number'),
+            'website': extract('#website'),
+            'description': extract('#description'),
+        }
