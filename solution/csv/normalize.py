@@ -1,6 +1,20 @@
 import pandas as pd
 import sys
 
+from dateutil.parser import parse
+
+
+def clean_dates(datestring):
+    try:
+        parsed = parse(datestring)
+        start_date = parsed.strftime('%Y-%m-%d')
+        start_date_description = None
+    except ValueError:
+        start_date = None
+        start_date_description = datestring
+
+    return start_date, start_date_description
+
 
 def normalize(infile, abbreviation_file):
     df = pd.read_csv(infile)
@@ -11,6 +25,9 @@ def normalize(infile, abbreviation_file):
 
     # Strip multiple spaces, line breaks from bio
     df['bio'] = df['bio'].str.replace(r'\s+', ' ')
+
+    # Clean dates
+    df['start_date'], df['start_date_description'] = zip(*df['start_date'].map(clean_dates))
 
     # Write to stdout
     df.to_csv(sys.stdout)
