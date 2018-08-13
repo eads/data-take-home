@@ -5,12 +5,12 @@ import sys
 def normalize(infile, abbreviation_file):
     df = pd.read_csv(infile)
 
-    # Strip multiple spaces, line breaks from bio
-    df['bio'] = df['bio'].str.replace(r'\s+', ' ')
-
     # Join the state name crosswalk file
     state_abbreviation_crosswalk = pd.read_csv(abbreviation_file, index_col='state_abbr')
     df = df.join(state_abbreviation_crosswalk, on="state")
+
+    # Strip multiple spaces, line breaks from bio
+    df['bio'] = df['bio'].str.replace(r'\s+', ' ')
 
     # Write to stdout
     df.to_csv(sys.stdout)
