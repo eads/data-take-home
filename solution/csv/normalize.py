@@ -1,17 +1,50 @@
 import pandas as pd
 import sys
 
+from datetime import datetime
 from dateutil.parser import parse
 
 
-def clean_dates(datestring):
+def join_crosswalk(df, state_abbreviation_crosswalk):
+    """
+    Join dataframe with state abbreviations to add full state name column.
+    """
+    return df.join(state_abbreviation_crosswalk, on="state")
+
+
+def clean_bio(df):
+    """
+    Strip line breaks, multiple spaces, leading/trailing whitespace from bio
+    field.
+    """
+    series = df['bio'].str.replace(r'\s+', ' ')
+    return series.str.strip()
+
+
+def clean_dates(df):
+    """
+    Return cleaned date columns
+    """
+    return zip(*df['start_date'].map(_clean_dates))
+
+
+def _clean_dates(datestring):
+    """
+    Parse valid dates to YYYY-MM-DD format, dump bad dates into
+    start_date_description field.
+    """
     try:
-        parsed = parse(datestring)
+        parsed = datetime.strptime(datestring, '%m/%y')
         start_date = parsed.strftime('%Y-%m-%d')
         start_date_description = None
     except ValueError:
-        start_date = None
-        start_date_description = datestring
+        try:
+            parsed = parse(datestring)
+            start_date = parsed.strftime('%Y-%m-%d')
+            start_date_description = None
+        except ValueError:
+            start_date = None
+            start_date_description = datestring
 
     return start_date, start_date_description
 
@@ -21,13 +54,13 @@ def normalize(infile, abbreviation_file):
 
     # Join the state name crosswalk file
     state_abbreviation_crosswalk = pd.read_csv(abbreviation_file, index_col='state_abbr')
-    df = df.join(state_abbreviation_crosswalk, on="state")
+    df = join_crosswalk(df, state_abbreviation_crosswalk)
 
     # Strip multiple spaces, line breaks from bio
-    df['bio'] = df['bio'].str.replace(r'\s+', ' ')
+    df['bio'] = clean_bio(df)
 
     # Clean dates
-    df['start_date'], df['start_date_description'] = zip(*df['start_date'].map(clean_dates))
+    df['start_date'], df['start_date_description'] = clean_dates(df)
 
     # Write to stdout
     df.to_csv(sys.stdout)
