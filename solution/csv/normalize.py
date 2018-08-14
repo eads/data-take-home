@@ -33,20 +33,27 @@ def _clean_dates(datestring):
     Parse valid dates to YYYY-MM-DD format, dump bad dates into
     start_date_description field.
     """
+
+    # Incomplete: MM/YY style
     try:
         parsed = datetime.strptime(datestring, '%m/%y')
-        start_date = parsed.strftime('%Y-%m-%d')
-        start_date_description = None
+        return None, 'Incomplete: %s' % datestring
     except ValueError:
-        try:
-            parsed = parse(datestring)
-            start_date = parsed.strftime('%Y-%m-%d')
-            start_date_description = None
-        except ValueError:
-            start_date = None
-            start_date_description = datestring
+        pass
 
-    return start_date, start_date_description
+    # Incomplete: Month, YYYY style
+    try:
+        parsed = datetime.strptime(datestring, '%B %Y')
+        return None, 'Incomplete: %s' % datestring
+    except ValueError:
+        pass
+
+    # Fully valid / invalid strings
+    try:
+        parsed = parse(datestring)
+        return parsed.strftime('%Y-%m-%d'), None
+    except ValueError:
+        return None, 'Invalid: %s' % datestring
 
 
 def normalize(infile, abbreviation_file):
